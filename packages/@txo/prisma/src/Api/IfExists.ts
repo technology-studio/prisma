@@ -8,12 +8,16 @@ export const ifExists = <CONDITION, VALUE>(
   value: VALUE | undefined,
 ): {
     then: (mapper: (value: VALUE) => CONDITION) => { else: (condition: CONDITION) => CONDITION },
+    else: <DEFAULT_CONDITION = undefined> (condition: CONDITION, defaultCondition: DEFAULT_CONDITION) => CONDITION | DEFAULT_CONDITION,
   } => ({
-    then: (mapper: (value: VALUE) => CONDITION) => {
+    then: mapper => {
       return {
         else: value !== undefined
           ? () => mapper(value)
-          : (condition: CONDITION) => condition,
+          : condition => condition,
       }
     },
+    else: value !== undefined
+      ? (_condition, defaultCondition) => defaultCondition
+      : condition => condition,
   })
