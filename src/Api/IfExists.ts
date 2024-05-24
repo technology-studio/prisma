@@ -10,13 +10,11 @@ export const ifExists = <CONDITION, VALUE>(
     then: (mapper: (value: VALUE) => CONDITION) => { else: (condition: CONDITION) => CONDITION },
     else: <DEFAULT_CONDITION = undefined> (condition: CONDITION, defaultCondition: DEFAULT_CONDITION) => CONDITION | DEFAULT_CONDITION,
   } => ({
-    then: mapper => {
-      return {
+    then: mapper => ({
         else: value !== undefined
           ? () => mapper(value)
           : condition => condition,
-      }
-    },
+      }),
     else: value !== undefined
       ? (_condition, defaultCondition) => defaultCondition
       : condition => condition,
