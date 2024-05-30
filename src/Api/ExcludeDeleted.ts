@@ -10,13 +10,11 @@ export const excludeDeleted = <CONDITION>(condition: CONDITION): {
   AND: [CONDITION, {
     deletedDateTime: typeof NOT_DELETED,
   }],
-} => {
-  return {
+} => ({
     AND: [
       condition,
       {
         deletedDateTime: NOT_DELETED,
       },
     ],
-  }
-}
+  })
